@@ -1,0 +1,57 @@
+body {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #fffaf0;
+    color: #323232;
+    text-align: center
+}
+
+header {
+    margin: 10px 50px
+}
+
+img {
+    max-width: 100%
+}
+
+h1 {
+    margin: 5px 0 10px
+}
+
+nav {
+    font-size: 0
+}
+
+nav,main {
+    margin: 15px 50px
+}
+
+a {
+    color: #323232;
+    text-decoration: none
+}
+
+a:hover {
+    color: #0073de
+}
+
+nav>a {
+    margin: 7px;
+    font-size: large;
+    font-weight: 700
+}
+
+@media(prefers-color-scheme: dark) {
+    body {
+        background-color:#1c1c1c;
+        color: #e6e6e6
+    }
+
+    a {
+        color: #e6e6e6
+    }
+
+    a:hover {
+        color: #00aeff
+    }
+}
