@@ -1,0 +1,31 @@
+h2 {
+    margin: 0 0 25px
+}
+
+article {
+    text-align: left
+}
+
+article>div {
+    margin: 5px 0 10px
+}
+
+article a {
+    color: #b56ac2
+}
+
+time {
+    display: list-item;
+    font-size: small;
+    color: #d96200
+}
+
+@media(prefers-color-scheme: dark) {
+    article a {
+        color:#ff87bb
+    }
+
+    time {
+        color: #ff9500
+    }
+}
