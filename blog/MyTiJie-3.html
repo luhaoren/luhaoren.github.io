@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Untitled</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+# 原题
+
+
+北极的某区域共有$n$座村庄($1 ≤ n ≤ 500$ )，每座村庄的坐标用一对整数$(x, y$)表示，其中 $0 ≤ x, y ≤ 10000$。为了加强联系，决定在村庄之间建立通讯网络。
+
+通讯工具可以是无线电收发机，也可以是卫星设备。所有的村庄都可以拥有一部无线电收发机， 且所有的无线电收发机型号相同。但卫星设备数量有限，只能给一部分村庄配备卫星设备。 
+
+不同型号的无线电收发机有一个不同的参数$d$，两座村庄之间的距离如果不超过d就可以用该型号的无线电收发机直接通讯，$d$值越大的型号价格越贵。拥有卫星设备的两座村庄无论相距多远都可以直接通讯。
+
+现在有$k$台卫星设备，请你编写程序计算出如何分配可以使所拥有的无线电收发机的$d$值最小，并保证任意两个村庄都可以直接或间接通讯
+
+## 输入
+
+
+第一行输入包含$N$，即测试数据的数量。
+
+每个测试用例的第一行包含$1 <= S <= 100$(卫星数)，$S <P <= 500$(前哨数)。
+
+接下来P行，给出每个前哨（$km$，坐标是0到10,000之间的整数）的$（x，y）$坐标。
+
+## 输出
+
+ 每个样例输出一个最小d值，两位小数
+
+## 样例输入
+```
+1
+2 4
+0 100
+0 300
+0 600
+150 750
+```
+## 样例输出
+```
+212.13
+```
+## 提示
+
+对于所有测试点，$1<=N<=10$。
+
+# 题目大意
+最小生成树，$p$个节点，$s$条路径，只能连$p-s$条线，输出最大的权值。
+# 算法
+最小生成树 $kruskall$算法
+# 代码
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+int a[1010];//并查集函数
+int find(int x){
+	//并查集查询
+	if(a[x]==x) return x;
+	return a[x]=find(a[x]);//路径压缩
+}
+struct xy{
+	double x,y;//xy坐标
+};
+struct node{
+	int a,b;
+	double w;
+};
+bool cmp(node a,node b){
+	return a.w<b.w;//自定义排序，也可以重载运算符
+}
+inline double dis(double x1,double y1,double x2,double y2){
+	return sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));//曼哈顿距离
+}
+int n;
+void kruskall(){
+	//因为有多组数据，所以单独一个函数
+	xy point[1010];//点数组
+	vector<node>v;
+	int s,p,num=0;
+	double d;
+	cin>>s>>p;
+	for(int i=1;i<=p;i++) a[i]=i;//并查集初始化
+	for(int i=1;i<=p;i++){
+		cin>>point[i].x>>point[i].y;
+	}
+	for(int i=1;i<=p;i++){
+		for(int j=1;j<=p;j++){
+			if(i!=j) v.push_back({i,j,dis(point[i].x,point[i].y,point[j].x,point[j].y)});
+		}
+	}
+	sort(v.begin(),v.end(),cmp);//排序
+	for(auto it:v){//kruskall算法
+		int fa=find(it.a),fb=find(it.b);
+		if(fa!=fb){
+			a[fa]=fb;
+			num++;
+			if(num==p-s){
+				d=it.w;
+				break;
+			}
+		}
+	}
+	printf("%.2lf\n",d);//最后一个就是最大的，两位小数输出
+}
+int main(){
+	cin>>n;
+	while(n--) kruskall();
+}
+```
+感谢观看$qwq$！
+	</body>
+</html>
