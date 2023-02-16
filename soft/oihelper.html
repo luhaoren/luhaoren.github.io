@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>「题解」北极通讯网络</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+
+  # OI小助手
+目前最新版本：V3.0.1
+
+**下载地址**：[link](https://www.aliyundrive.com/s/vtLr6pfqMKo)
+
+---
+
+## OI小助手V2.5
+本软件由$洛谷用户@luhaoren$制作。
+
+### **安装包**：[link](https://www.luogu.com.cn/api/team/downloadFile/46f8d962)(需要加入[团队](https://www.luogu.com.cn/team/50054))
+
+**版本**：V2.5
+
+## **功能**：
+### 设置
+1. **颜色设置**：包括普通（白黑），黑夜（黑白）和护眼（浅黄黑）三种风格，另外颜色喜好会存档，不需要每次都更换颜色。
+2. **用户面板**：包括注销用户和我的背包。会调取文件流，从$use.txt$中读档，可以保存用户的历史记录和喜好。
+2. **登录注册**：检测$use.txt$中的用户名，若有，则登录，否则进入注册程序。
+### 娱乐应用
+1. **OI商城**：商城包括以下商品：抽奖机会、答题机会，VIP等，通过积分$“rp”$购买
+2. **OI抽奖**：以$time$为种子，在$1$至$6$中随机抽取一个数，$17$%特等奖，$33$%抽中rp，$17$%抽中抽奖机会，剩下概率为不中奖。每次程序启动后，背包内会有两次抽奖机会，而后就需要去商城购买。
+3. **游戏中心**：包含迷宫，五子棋和扫雷三个程序，皆为转载，链接如下：[迷宫](https://www.luogu.com.cn/blog/owo-menghuifanhua/sui-ji-mi-gong-jian-dan-post)，[五子棋](https://blog.csdn.net/jackypigpig/article/details/79715275)，[扫雷](https://www.luogu.com.cn/blog/owo-menghuifanhua/sao-lei)。感谢$@wuwendongxi大佬$，%%%
+
+### 学习应用
+1. **文化知识抢答** 题目和答案在$timu.txt$和$answer.txt$。文件流写入，然后从12题中随机读取5题，每答对一题会rp++。为了防止恶意刷rp，每次运行仅有两次答题机会，然后就得去商城购买。
+
+2. **OJ链接**：可以跳转到[洛谷](https://www.luogu.com.cn/),[acwing](https://www.acwing.com)和[Accoders](https://www.accoders.com)三个OJ网站。
+
+### 实用工具
+
+1. **OI笔记**：这是最有难度的模块，~~为了这个模块，作者把csdn上关于文件流的文章看了个遍~~。有三项功能：记录笔记，查看笔记，删除笔记。每次记录笔记会在目录下创建一个$txt$文件，有个小bug，查看笔记时，会把系统文件（$use.txt$,$timu.txt$,$answer.txt$）读取，忽略即可！
+2. **随机数**：输入两个常数，返回两数间的任意一个整数。作者手残，只能写int以内的，不要把这个程序玩坏了。
+3. **计算器**：利用了$stl$栈和中缀转前缀求值，不要输入高精度。支持五种运算：加减乘除和乘方。
+### 积分系统
+本程序的积分为rp，初始rp为0，通过答题，抽奖等可以获取rp，rp可以用来购买商品，另外游戏中心内的三个游戏需要一定的rp。
+
+## V2.5.1新增功能
+1. 改进了答题机会不断减少的bug。
+2. 改进了读档功能，把个人信息经常丢失的bug解决。
+3. 改进了“关于”页面的美观问题和链接的指向。
+
+**V2.5.1下载链接：[link](https://www.luogu.com.cn/api/team/downloadFile/tgk2xo9s)**（下载完直接复制到$V2.5$的目录里就可以了）
+
+------------
+## V2.6新增功能
+1. 改进了RP逆增长的bug。
+2. 因为源代码太长，编译时间太长，所以作者把OI笔记和计算器两个模块独立了，形成了$notepad.exe$和$计算器.exe$两个程序。外观等都和主程序相同。
+
+**V2.6下载链接：[link](https://www.luogu.com.cn/api/team/downloadFile/cwkg34qy)**
+
+
+------------
+## V2.6.1新增功能
+1. 增加了猜数程序，在游戏中心内，有困难和简单两种模式。
+2. 改进了一些bug。
+3. 美化了界面。
+
+**V2.6.1下载链接：[link](https://www.luogu.com.cn/api/team/downloadFile/cwkg34qy)**
+
+------------
+## V2.8新增功能
+1. **重新设计了页面**，优化了算法，把几乎所有$bug$都优化了。与老版本**完全不同**。
+2. **依然可以进入旧版**，在“$设置$”中的“$进入旧版$”。
+3. **具体更新内容**：
+
+	（**1**）将所有外部程序（在$OI小助手.exe$外的$模块$）放在了“$应用市场$”页面。
+    
+    （**2**）删去了“$友情链接$”，“$前往oj$”等**冗余模块**删去，使程序源代码变得简洁。（仍可在“$前往旧版$”模块打开）
+    
+    （**3**）优化了算法，目前的运行速度约为$2.6.1$版本的**2.5倍**以上。
+    
+    （**4**）美化了页面。
+
+**V2.8下载链接：[link](https://www.luogu.com.cn/api/team/downloadFile/txixta8w)**
+
+
+------------
+## V2.9新增功能
+1. **增加了反脏话系统**：检测到“$sb$”，“$tmd$”等话语时，会自动弹出一些……提醒。
+2. **增加了OI安全**，在$应用$中，具体……
+3. **具体更新内容**：
+
+	（**1**）作者把应用中心的文件流算法优化了，但是……**提醒大家**：加入你安装了360安全，程序运行时可能会被当成木马。
+    
+    （**2**）美化了页面。
+
+**V2.9下载链接：[link](https://www.luogu.com.cn/api/team/downloadFile/evk6lee5)**
+
+
+------------
+## V2.9.1新增功能
+1. 在设置中增加了“**高级设置**”功能，只要输入cmd指令就可以进行设置。
+
+2. 把OI笔记中读取错误的bug优化（以前输入字符就会乱码，现在输入字符就会退出）。
+
+
+------------
+## V3.0新增功能
+使用```dev-c++```的项目功能重写了OIHelper，改变了以往混乱的码风，把应用市场变成了多文件开发模式，变的更加简洁，方便，设计了新的图标。
+
+**下载地址**：[link](https://www.aliyundrive.com/s/vtLr6pfqMKo)
+
+---
+
+ $后续版本将在未来陆续发布。$ 
+  
+</body>
+</html>
