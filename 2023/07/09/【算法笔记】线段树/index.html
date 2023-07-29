@@ -23,6 +23,7 @@
 <meta property="og:site_name" content="luhaoren&#39;s blog">
 <meta property="og:description" content="线段树，从入门到入坑">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/ibfu7ul5.png">
 <meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/ryyqv01h.png">
 <meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/cnvm8qso.png">
 <meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/vkn6fj17.png">
@@ -45,12 +46,12 @@
 <meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/hyz1t3el.png">
 <meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/ibfu7ul5.png">
 <meta property="article:published_time" content="2023-07-09T01:36:22.000Z">
-<meta property="article:modified_time" content="2023-07-28T13:23:03.168Z">
+<meta property="article:modified_time" content="2023-07-29T14:49:56.630Z">
 <meta property="article:author" content="luhaoren">
 <meta property="article:tag" content="算法笔记">
 <meta property="article:tag" content="线段树">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://cdn.luogu.com.cn/upload/image_hosting/ryyqv01h.png">
+<meta name="twitter:image" content="https://cdn.luogu.com.cn/upload/image_hosting/ibfu7ul5.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -293,7 +294,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          24k 字
+          25k 字
         
       </span>
     
@@ -304,7 +305,7 @@
         
         
         
-          202 分钟
+          205 分钟
         
       </span>
     
@@ -347,7 +348,18 @@
               <div class="markdown-body">
                 
                 <h1>前言</h1>
-<p>今年初的时候学线段树，凑了一篇博客（其实就是一堆题的题解），连线段树是什么都没讲明白，所以重新写了一篇。</p>
+<p>线段树，是数据结构皇冠上的明珠（我编的）。</p>
+<p>它用途广泛，被一代代的oier应用，改进，优化。</p>
+<p><img src="https://cdn.luogu.com.cn/upload/image_hosting/ibfu7ul5.png" srcset="/img/loading.gif" lazyload alt="一个博客需要由一张头图"></p>
+<p>本文介绍了线段树的基础知识和各种拓展（包括权值线段树，可持久化线段树），各种优化方式（包括zkw线段树，动态开点，离散化），希望能帮到更多的oier。</p>
+<p>在学习线段树前，默认你应该学会一下内容：</p>
+<ol>
+<li>树和二叉树的基本知识（这你总得会吧）</li>
+<li>二叉堆（主要是堆式储存）</li>
+<li>离散化（其实并不需要）</li>
+<li>会写代码</li>
+</ol>
+<p>如果你不会，左转<a target="_blank" rel="noopener" href="https://oi-wiki.org/">oiwiki</a>，如果你会，那么继续读吧！</p>
 <h1>线段树的引入</h1>
 <p>举个例子，我们现在有一个序列，想维护一段子区间的和，该怎么办呢？</p>
 <p>你或许会说，可以暴力！把这个区间的数加起来就行了。</p>
@@ -724,7 +736,9 @@ RMQ问题，可以试试用线段树做</li>
 <li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3567">[POI2014] KUR-Couriers</a><br>
 维护区间绝对众数，有乱搞做法</li>
 </ol>
-<h1>U.P.D</h1>
+<h1>后记</h1>
+<p>这篇文章从2023年2月动笔，一直到8月份，花了很大精力，包括配图（工作文件夹里现在还存着近百张草图），每一张都是用心制作的，从最开始在csdn上编辑，到转到洛谷上，再到发到自己博客上，这篇文章可以说是费尽心血，希望能帮到更多的线段树初学者，感谢观看！</p>
+<h2 id="U-P-D">U.P.D</h2>
 <p>2023年2月17日 初稿，大概两千多字。</p>
 <p>2023年6月？ cry拿去学，发现了一堆错误（比如代码写了个<code>tr[x]=tr[x*2]+tr[x*2]</code>）。</p>
 <p>2023年7月3日 开始重写。</p>
@@ -733,7 +747,7 @@ RMQ问题，可以试试用线段树做</li>
 <p>2023年7月9日 挪到了洛谷上，把图片传到了洛谷图床上。增加了权值线段树的习题。</p>
 <p>2023年7月9日 增加了zkw线段树</p>
 <p>2023年7月11日 增加了可持久化线段树</p>
-<h1>参考资料</h1>
+<h2 id="参考资料">参考资料</h2>
 <ol>
 <li>
 <p><a target="_blank" rel="noopener" href="https://oi-wiki.org/ds/seg/">oiwiki关于线段树储存空间的证明</a></p>
@@ -847,8 +861,8 @@ RMQ问题，可以试试用线段树做</li>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/02/09/%E3%80%90%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0%E3%80%91%E6%90%9C%E7%B4%A2%E5%9F%BA%E7%A1%80/" title="【算法笔记】搜索基础">
-                        <span class="hidden-mobile">【算法笔记】搜索基础</span>
+                      <a href="/2023/03/19/%E3%80%90%E9%A2%98%E8%A7%A3%E3%80%91%E4%B8%80%E6%9C%AC%E9%80%9A%E5%BF%AB%E9%80%9F%E5%B9%82%EF%BC%88%E5%90%88%E9%9B%86%EF%BC%89/" title="【题解】一本通快速幂（合集）">
+                        <span class="hidden-mobile">【题解】一本通快速幂（合集）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
