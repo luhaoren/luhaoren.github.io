@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://oi-wiki.org/misc/images/hill-climbing.png">
 <meta property="og:image" content="https://oi-wiki.org/misc/images/simulated-annealing.gif">
 <meta property="article:published_time" content="2023-08-01T02:40:48.000Z">
-<meta property="article:modified_time" content="2023-08-01T02:47:28.910Z">
+<meta property="article:modified_time" content="2023-08-02T10:09:47.660Z">
 <meta property="article:author" content="luhaoren">
 <meta property="article:tag" content="算法笔记">
 <meta property="article:tag" content="模拟退火">
@@ -369,7 +369,7 @@
 <p>如果这么些：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">double</span> cx=x+<span class="hljs-built_in">rand</span>(),cy=y+<span class="hljs-built_in">rand</span>();<br></code></pre></td></tr></table></figure>
 <p>rand的取值是一个正值，所以坐标会逐渐递增，这显然是不行的。</p>
-<p>所以我们可以这样些：</p>
+<p>所以我们可以这样写：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">double</span> cx=now.x+(<span class="hljs-built_in">rand</span>()*<span class="hljs-number">2</span>-RAND_MAX)*t;<br><span class="hljs-type">double</span> cy=now.y+(<span class="hljs-built_in">rand</span>()*<span class="hljs-number">2</span>-RAND_MAX)*t;		<br></code></pre></td></tr></table></figure>
 <p>RAND_MAX是随机数的最大值，所以(rand()*2-RAND_MAX)的取值范围就是[-RAND_MAX,RAND_MAX]，再乘上当前的温度<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span>，就会得到一个可能正负的随机浮点数，并且随着温度的减小越来越小，满足了我们的需求。</p>
 <h1>例题</h1>
@@ -474,6 +474,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2023/08/02/OI%E7%A8%8B%E5%BA%8F%E4%BC%98%E5%8C%96%E6%8C%87%E5%8D%97/" title="OI程序优化指南">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">OI程序优化指南</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
