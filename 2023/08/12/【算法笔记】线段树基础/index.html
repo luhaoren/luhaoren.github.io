@@ -1,0 +1,890 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="luhaoren">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="为了方便查找，我把原先的一篇博客拆成了四份">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【算法笔记】线段树基础">
+<meta property="og:url" content="http://luhaoren.xyz/2023/08/12/%E3%80%90%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0%E3%80%91%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="luhaoren&#39;s blog">
+<meta property="og:description" content="为了方便查找，我把原先的一篇博客拆成了四份">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/ibfu7ul5.png">
+<meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/ryyqv01h.png">
+<meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/cnvm8qso.png">
+<meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/vkn6fj17.png">
+<meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/a3c7wf82.png">
+<meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/ej610u3t.png">
+<meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/hccrowdz.png">
+<meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/l271t0zv.png">
+<meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/couf82jr.png">
+<meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/04xkea0k.png">
+<meta property="article:published_time" content="2023-08-12T11:47:11.000Z">
+<meta property="article:modified_time" content="2023-08-12T12:04:42.611Z">
+<meta property="article:author" content="luhaoren">
+<meta property="article:tag" content="算法笔记">
+<meta property="article:tag" content="线段树">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.luogu.com.cn/upload/image_hosting/ibfu7ul5.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>【算法笔记】线段树基础 - luhaoren&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"luhaoren.xyz","root":"/","version":"1.9.5-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":21742141,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+    <!-- 51.la Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript('//js.users.51.la/21742141.js');
+      }
+    </script>
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>luhaoren的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/algorithm-blog/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>算法笔记</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://img1.baidu.com/it/u=4013697431,3274748559&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="【算法笔记】线段树基础"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-08-12 19:47" pubdate>
+          2023年8月12日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          91 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">【算法笔记】线段树基础</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1>前言</h1>
+<p>线段树，是数据结构皇冠上的明珠（我编的）。</p>
+<p>它用途广泛，被一代代的oier应用，改进，优化。</p>
+<p><img src="https://cdn.luogu.com.cn/upload/image_hosting/ibfu7ul5.png" srcset="/img/loading.gif" lazyload alt="一个博客需要由一张头图"></p>
+<p>本文介绍了线段树的基础知识，希望能帮到更多的oier。</p>
+<p>在学习线段树前，默认你应该学会一下内容：</p>
+<ol>
+<li>树和二叉树的基本知识（这你总得会吧）</li>
+<li>二叉堆（主要是堆式储存）</li>
+<li>离散化（其实并不需要）</li>
+<li>会写代码</li>
+</ol>
+<p>如果你不会，左转<a target="_blank" rel="noopener" href="https://oi-wiki.org/">oiwiki</a>，如果你会，那么继续读吧！</p>
+<h1>线段树的引入</h1>
+<p>举个例子，我们现在有一个序列，想维护一段子区间的和，该怎么办呢？</p>
+<p>你或许会说，可以暴力！把这个区间的数加起来就行了。</p>
+<p>那么如果这个子区间里有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msup><mn>0</mn><mn>5</mn></msup></mrow><annotation encoding="application/x-tex">10^5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span>个数呢？</p>
+<p>前缀和？</p>
+<p>如果强制在线呢？</p>
+<p>如果在维护区间和的同时维护最大值、并且支持区间修改呢？</p>
+<p>我们有很多种办法维护区间问题，比如树状数组，线段树，分块。其中，线段树是较通用且直观的一种数据结构。</p>
+<h1>基础线段树</h1>
+<h2 id="线段树入门">线段树入门</h2>
+<p>首先，我们有一个序列。</p>
+<p class="katex-block "><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mo fence="true">{</mo><mn>1</mn><mo separator="true">,</mo><mn>1</mn><mo separator="true">,</mo><mn>4</mn><mo separator="true">,</mo><mn>5</mn><mo separator="true">,</mo><mn>1</mn><mo separator="true">,</mo><mn>4</mn><mo fence="true">}</mo></mrow><annotation encoding="application/x-tex">\left \{ 1,1,4,5,1,4 \right \} 
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">{</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">5</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">4</span><span class="mclose delimcenter" style="top:0em;">}</span></span></span></span></span></span></p>
+<p>我们利用二分的思想，用每一个节点表示一个区间，两个子节点表示左右两个子区间。</p>
+<p><img src="https://cdn.luogu.com.cn/upload/image_hosting/ryyqv01h.png" srcset="/img/loading.gif" lazyload alt=""><br>
+然后我们就可以在每个节点处维护一些信息。</p>
+<p>注意：实际上，只有最下面一层的叶子节点才保存了实际的数字，其它的每个节点只保存着这个区间的信息（如区间和，区间最值等）</p>
+<p>那么如何把子节点的信息传到父节点上呢？</p>
+<p>我们要了解一个叫做<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>u</mi><mi>s</mi><mi>h</mi><mi>u</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">pushup</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span><span class="mord mathnormal">u</span><span class="mord mathnormal">s</span><span class="mord mathnormal">h</span><span class="mord mathnormal">u</span><span class="mord mathnormal">p</span></span></span></span>的操作。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">pushup</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span>&#123;<br>	tr[x].sum=tr[x*<span class="hljs-number">2</span>].sum+tr[x*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>].sum;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这个操作的意思就是：节点表示的区间和等于两个子节点所表示的区间之和。即下图：</p>
+<p><img src="https://cdn.luogu.com.cn/upload/image_hosting/cnvm8qso.png" srcset="/img/loading.gif" lazyload alt=""><br>
+有了这个操作，我们就可以递归的求出每一个节点所表示的信息。</p>
+<p><img src="https://cdn.luogu.com.cn/upload/image_hosting/vkn6fj17.png" srcset="/img/loading.gif" lazyload alt=""><br>
+这个建立线段树的过程可以看作是预处理信息，把数组的信息转移到线段树的叶子节点上，时间复杂度大概是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></p>
+<p>事实上，还有另一种写法的线段树，不需要建树，但是需要<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O( n\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>的时间复杂度插入数据，我们会在权值线段树部分介绍这种写法。</p>
+<p><strong>建树代码</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">build</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)</span></span>&#123;<br>	tr[x].l=l,tr[x].r=r;<span class="hljs-comment">//节点表示区间的左右界</span><br>	<span class="hljs-keyword">if</span>(l==r)&#123;<br>		<span class="hljs-comment">//若l=r，说明这个节点是叶子节点，直接赋值</span><br>		tr[x].sum=a[l];<span class="hljs-comment">//a是原数列</span><br>		<span class="hljs-keyword">return</span>;<br>	&#125;<br>	<span class="hljs-type">int</span> mid=(l+r)/<span class="hljs-number">2</span>;<span class="hljs-comment">//mid表示左右子区间的间隔</span><br>	<span class="hljs-built_in">build</span>(x*<span class="hljs-number">2</span>,l,mid),<span class="hljs-built_in">build</span>(x*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>,mid+<span class="hljs-number">1</span>,r);<span class="hljs-comment">//递归建树</span><br>	<span class="hljs-comment">//线段树是完全二叉树，左右子节点可以用x*2,x*2+1表示</span><br>	tr[x].sum=tr[x*<span class="hljs-number">2</span>].sum+tr[x*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>].sum;<span class="hljs-comment">//pushup操作</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="区间查询">区间查询</h3>
+<p>线段树可以在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>的时间复杂度下完成区间查询操作。</p>
+<p>以刚刚的数列<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo fence="true">{</mo><mn>1</mn><mo separator="true">,</mo><mn>1</mn><mo separator="true">,</mo><mn>4</mn><mo separator="true">,</mo><mn>5</mn><mo separator="true">,</mo><mn>1</mn><mo separator="true">,</mo><mn>4</mn><mo fence="true">}</mo></mrow><annotation encoding="application/x-tex">\left \{ 1,1,4,5,1,4 \right \}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">{</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">5</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">4</span><span class="mclose delimcenter" style="top:0em;">}</span></span></span></span></span>为例。</p>
+<p>此时如果询问<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>3</mn><mo separator="true">,</mo><mn>5</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[3,5]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">3</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">5</span><span class="mclose">]</span></span></span></span>之间的区间和，我们该怎么办呢？</p>
+<p><img src="https://cdn.luogu.com.cn/upload/image_hosting/a3c7wf82.png" srcset="/img/loading.gif" lazyload alt=""><br>
+首先，如果直接查询<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>4</mn><mo separator="true">,</mo><mn>6</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[4,6]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">6</span><span class="mclose">]</span></span></span></span>的区间和，我们肯定是会的，直接输出10就行。</p>
+<p>查询<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>4</mn><mo separator="true">,</mo><mn>5</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[4,5]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">5</span><span class="mclose">]</span></span></span></span>怎么办呢？</p>
+<p>可以把<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>4</mn><mo separator="true">,</mo><mn>6</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[4,6]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">6</span><span class="mclose">]</span></span></span></span>拆成<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>4</mn><mo separator="true">,</mo><mn>5</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[4,5]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">5</span><span class="mclose">]</span></span></span></span>和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>6</mn><mo separator="true">,</mo><mn>6</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[6,6]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">6</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">6</span><span class="mclose">]</span></span></span></span>，然后输出<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>4</mn><mo separator="true">,</mo><mn>5</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[4,5]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">5</span><span class="mclose">]</span></span></span></span>的和。</p>
+<p>那么<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>3</mn><mo separator="true">,</mo><mn>5</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[3,5]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">3</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">5</span><span class="mclose">]</span></span></span></span>就可以表示为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>3</mn><mo separator="true">,</mo><mn>3</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[3,3]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">3</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">3</span><span class="mclose">]</span></span></span></span>和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>4</mn><mo separator="true">,</mo><mn>5</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[4,5]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">5</span><span class="mclose">]</span></span></span></span>。</p>
+<p><img src="https://cdn.luogu.com.cn/upload/image_hosting/ej610u3t.png" srcset="/img/loading.gif" lazyload alt=""><br>
+所以无论我们查询多大的区间，都可以拆成一些（不超过<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>log</mi><mo>⁡</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">\log n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span></span></span></span>）预处理过的子区间，把这些子区间的区间和加起来，就是答案。</p>
+<p><strong>区间查询代码</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">query</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)</span></span>&#123;<br>	<span class="hljs-comment">//区间查询</span><br>	<span class="hljs-keyword">if</span>(tr[x].l&gt;=l&amp;&amp;tr[x].r&gt;=r) <span class="hljs-keyword">return</span> tr[x].sum;<span class="hljs-comment">//如果该节点的区间被要查找的区间包括了，那么就不用继续找了，直接返回改节点的值就行了</span><br>	<span class="hljs-type">int</span> mid=(tr[x].l+tr[x].r)/<span class="hljs-number">2</span>;<br>	<span class="hljs-type">int</span> sum=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">if</span>(l&lt;=mid) sum+=<span class="hljs-built_in">query</span>(x*<span class="hljs-number">2</span>,l,r);<span class="hljs-comment">//如果当前节点在要查找区间左边界的右面，那么递归查找左子树</span><br>	<span class="hljs-keyword">if</span>(r&gt;mid) sum+=<span class="hljs-built_in">query</span>(x*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>,l,r);<span class="hljs-comment">//如果当前节点在要查找区间右边界的左面，那么递归查找右子树</span><br>	<span class="hljs-keyword">return</span> sum;<span class="hljs-comment">//由此得出了该区间的值，返回即可</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="单点修改">单点修改</h3>
+<p>单点修改比较简单，不断递归，定位到要找的节点，修改即可。</p>
+<p><img src="https://cdn.luogu.com.cn/upload/image_hosting/hccrowdz.png" srcset="/img/loading.gif" lazyload alt="单点修改"></p>
+<p><strong>单点修改代码</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">change</span><span class="hljs-params">(<span class="hljs-type">int</span> now,<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> k)</span></span>&#123;<br>	<span class="hljs-comment">//单点修改</span><br>	<span class="hljs-keyword">if</span>(tr[now].l==tr[now].r)&#123;<br>		tr[now].sum=k;<span class="hljs-comment">//如果找到了该节点，那么修改它</span><br>		<span class="hljs-keyword">return</span>;<br>	&#125;<br>	<span class="hljs-type">int</span> mid=(tr[now].l+tr[now].r)/<span class="hljs-number">2</span>;<br>	<span class="hljs-keyword">if</span>(x&lt;=mid) <span class="hljs-built_in">change</span>(now*<span class="hljs-number">2</span>,x,k);<span class="hljs-comment">//如果要寻找的节点在当前节点的左侧，就递归左子树</span><br>	<span class="hljs-keyword">else</span> <span class="hljs-built_in">change</span>(now*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>,x,k);<span class="hljs-comment">//否则递归右子树</span><br>	tr[now].sum=tr[now*<span class="hljs-number">2</span>].sum+tr[now*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>].sum;<span class="hljs-comment">//pushup操作，维护每个节点的sum值</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="线段树的存储">线段树的存储</h3>
+<p>观察线段树，我们发现它是一个完全二叉树，可以用堆式储存法。</p>
+<p>即把每个节点都存在一个数组里，因为是完全二叉树，所以两个子节点可以用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>p</mi></mrow><annotation encoding="application/x-tex">2p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">2</span><span class="mord mathnormal">p</span></span></span></span>，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>p</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2p+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">2</span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>表示。</p>
+<p>因为线段树大部分节点都不是用来存数字的，所以线段树所用的空间要比原数列的空间多很多，如图，只有红色的节点才是真正存数字的。</p>
+<p><img src="https://cdn.luogu.com.cn/upload/image_hosting/l271t0zv.png" srcset="/img/loading.gif" lazyload alt="线段树的存储"></p>
+<p>线段树大概要开四倍的空间，具体可以看<a target="_blank" rel="noopener" href="https://oi-wiki.org/ds/seg/#%E7%BA%BF%E6%AE%B5%E6%A0%91%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84%E4%B8%8E%E5%BB%BA%E6%A0%91">OIwiki</a>上的分析。</p>
+<h3 id="例题1：单点修改，区间查询">例题1：单点修改，区间查询</h3>
+<p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3374">洛谷P3374</a></p>
+<p>已知一个数列，进行下面两种操作：</p>
+<ul>
+<li>将某一个数加上<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span></li>
+<li>求出某区间每一个数的和</li>
+</ul>
+<p><strong>题目分析</strong></p>
+<p>相当于模板题，可以尝试着敲一遍，这里提供代码。</p>
+<p><strong>AC代码</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N=<span class="hljs-number">1e6</span>+<span class="hljs-number">10</span>;<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">node</span>&#123;<br>	<span class="hljs-type">int</span> sum,l,r;<span class="hljs-comment">//线段树节点的结构体</span><br>&#125;tr[N*<span class="hljs-number">4</span>];<span class="hljs-comment">//线段树需要开四倍空间</span><br><span class="hljs-type">int</span> a[N];<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">pushup</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span>&#123;<br>	tr[x].sum=tr[x*<span class="hljs-number">2</span>].sum+tr[x*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>].sum;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">build</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)</span></span>&#123;<br>	tr[x].l=l,tr[x].r=r;<span class="hljs-comment">//节点表示区间的左右界</span><br>	<span class="hljs-keyword">if</span>(l==r)&#123;<br>		<span class="hljs-comment">//若l=r，说明这个节点是叶子节点，直接赋值</span><br>		tr[x].sum=a[l];<span class="hljs-comment">//a是原数列</span><br>		<span class="hljs-keyword">return</span>;<br>	&#125;<br>	<span class="hljs-type">int</span> mid=(l+r)/<span class="hljs-number">2</span>;<span class="hljs-comment">//mid表示左右子区间的间隔</span><br>	<span class="hljs-built_in">build</span>(x*<span class="hljs-number">2</span>,l,mid),<span class="hljs-built_in">build</span>(x*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>,mid+<span class="hljs-number">1</span>,r);<span class="hljs-comment">//递归建树</span><br>	<span class="hljs-comment">//线段树是完全二叉树，左右子节点可以用x*2,x*2+1表示</span><br>	<span class="hljs-built_in">pushup</span>(x);<span class="hljs-comment">//pushup操作</span><br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">query</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)</span></span>&#123;<br>	<span class="hljs-comment">//区间查询</span><br>	<span class="hljs-keyword">if</span>(tr[x].l&gt;=l&amp;&amp;tr[x].r&lt;=r) <span class="hljs-keyword">return</span> tr[x].sum;<span class="hljs-comment">//如果该节点的区间被要查找的区间包括了，那么就不用继续找了，直接返回改节点的值就行了</span><br>	<span class="hljs-type">int</span> mid=(tr[x].l+tr[x].r)/<span class="hljs-number">2</span>;<br>	<span class="hljs-type">int</span> sum=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">if</span>(l&lt;=mid) sum+=<span class="hljs-built_in">query</span>(x*<span class="hljs-number">2</span>,l,r);<span class="hljs-comment">//如果当前节点在要查找区间左边界的右面，那么递归查找左子树</span><br>	<span class="hljs-keyword">if</span>(r&gt;mid) sum+=<span class="hljs-built_in">query</span>(x*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>,l,r);<span class="hljs-comment">//如果当前节点在要查找区间右边界的左面，那么递归查找右子树</span><br>	<span class="hljs-keyword">return</span> sum;<span class="hljs-comment">//由此得出了该区间的值，返回即可</span><br>&#125;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">change</span><span class="hljs-params">(<span class="hljs-type">int</span> now,<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> k)</span></span>&#123;<br>	<span class="hljs-comment">//单点修改</span><br>	<span class="hljs-keyword">if</span>(tr[now].l==tr[now].r)&#123;<br>		tr[now].sum+=k;<span class="hljs-comment">//如果找到了该节点，那么修改它</span><br>		<span class="hljs-keyword">return</span>;<br>	&#125;<br>	<span class="hljs-type">int</span> mid=(tr[now].l+tr[now].r)/<span class="hljs-number">2</span>;<br>	<span class="hljs-keyword">if</span>(x&lt;=mid) <span class="hljs-built_in">change</span>(now*<span class="hljs-number">2</span>,x,k);<span class="hljs-comment">//如果要寻找的节点在当前节点的左侧，就递归左子树</span><br>	<span class="hljs-keyword">else</span> <span class="hljs-built_in">change</span>(now*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>,x,k);<span class="hljs-comment">//否则递归右子树</span><br>	<span class="hljs-built_in">pushup</span>(now);<span class="hljs-comment">//pushup操作，维护每个节点的sum值</span><br>&#125;<br><br><span class="hljs-type">int</span> n,q;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>	cin&gt;&gt;n&gt;&gt;q;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++) cin&gt;&gt;a[i];<br>	<span class="hljs-built_in">build</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,n);<span class="hljs-comment">//建树</span><br>	<span class="hljs-keyword">while</span>(q--)&#123;<br>		<span class="hljs-type">int</span> t,b,c;<br>		cin&gt;&gt;t&gt;&gt;b&gt;&gt;c;<br>		<span class="hljs-keyword">if</span>(t==<span class="hljs-number">1</span>) <span class="hljs-built_in">change</span>(<span class="hljs-number">1</span>,b,c);<br>		<span class="hljs-keyword">else</span> cout&lt;&lt;<span class="hljs-built_in">query</span>(<span class="hljs-number">1</span>,b,c)&lt;&lt;endl;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="习题">习题</h3>
+<p>学会了线段树最基础的部分，就可以做一些习题了，将在博客的最后提供题解和代码。</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1198">JSOI2008 最大数</a><br>
+线段树维护最大值的模板</li>
+<li><a target="_blank" rel="noopener" href="https://loj.ac/p/10123">loj10123. Balanced Lineup</a><br>
+RMQ问题，可以试试用线段树做</li>
+</ol>
+<h2 id="懒标记">懒标记</h2>
+<p>下面请思考，怎么才能做到线段树的区间修改呢？</p>
+<p>如果直接把区间遍历一遍，依次修改，复杂度会达到无法接受的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>。</p>
+<p>那么怎么能让区间修改的复杂度变小呢？</p>
+<p>我们需要引入一个叫做“懒标记”的东西。</p>
+<p>懒标记也叫延迟标记，顾名思义，我们再修改这个区间的时候给这个区间打上一个标记，这样就可以做到区间修改的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>的时间复杂度。</p>
+<p>如图，如果要给<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>4</mn><mo separator="true">,</mo><mn>6</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[4,6]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">6</span><span class="mclose">]</span></span></span></span>每个数都加上<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span>，那么直接再代表着<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>4</mn><mo separator="true">,</mo><mn>6</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[4,6]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">6</span><span class="mclose">]</span></span></span></span>区间的结点打上<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>+</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">+2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">+</span><span class="mord">2</span></span></span></span>的标记就行了。</p>
+<p><img src="https://cdn.luogu.com.cn/upload/image_hosting/couf82jr.png" srcset="/img/loading.gif" lazyload alt="懒标记"></p>
+<h3 id="pushdown操作">pushdown操作</h3>
+<p>再想一个问题，在给<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>4</mn><mo separator="true">,</mo><mn>6</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[4,6]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">6</span><span class="mclose">]</span></span></span></span>区间打上懒标记后，我们如何查询<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>4</mn><mo separator="true">,</mo><mn>5</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[4,5]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">5</span><span class="mclose">]</span></span></span></span>的值？</p>
+<p>如果我们直接查询到<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>4</mn><mo separator="true">,</mo><mn>5</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[4,5]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">5</span><span class="mclose">]</span></span></span></span>区间上，会发现根本就没有被加上过2。</p>
+<p>为什么呢?</p>
+<p>因为现在懒标记打在了<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>4</mn><mo separator="true">,</mo><mn>6</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[4,6]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">6</span><span class="mclose">]</span></span></span></span>区间上。而他的子节点压根没被修改过！</p>
+<p>所以我们需要把懒标记向下传递。</p>
+<p>这就有了一个操作，叫做<code>pushdown</code>，它可以把懒标记下传。</p>
+<p>设想一下，如果我们要把懒标记下传，应该注意什么呢？</p>
+<p>首先，要给子节点打上懒标记。</p>
+<p>然后，我们要修改子节点上的值。</p>
+<p>最后，不要忘记把这个节点的懒标记清空。</p>
+<p><strong>pushdown代码</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">pushudown</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span>&#123;<br>	<span class="hljs-keyword">if</span>(tr[x].add)&#123;<br>		<span class="hljs-comment">//如果这个节点上有懒标记</span><br>		tr[<span class="hljs-number">2</span>*x].add+=tr[x].add,tr[<span class="hljs-number">2</span>*x+<span class="hljs-number">1</span>].add+=tr[x].add;<br>		<span class="hljs-comment">//把这个节点的懒标记给他的两个子节点</span><br>		tr[<span class="hljs-number">2</span>*x].sum+=tr[x].add*(tr[<span class="hljs-number">2</span>*x].r-tr[<span class="hljs-number">2</span>*x].l+<span class="hljs-number">1</span>);<br>		tr[<span class="hljs-number">2</span>*x+<span class="hljs-number">1</span>].sum+=tr[x].add*(tr[<span class="hljs-number">2</span>*x+<span class="hljs-number">1</span>].r-tr[<span class="hljs-number">2</span>*x+<span class="hljs-number">1</span>].l+<span class="hljs-number">1</span>);<br>		<span class="hljs-comment">//分别给它的两个子节点修改</span><br>		tr[x].add=<span class="hljs-number">0</span>;<br>		<span class="hljs-comment">//别忘了清空这个节点的懒标记</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="区间修改">区间修改</h3>
+<p>学会了懒标记，应该可以很轻松地写出区间修改的代码了。</p>
+<p>区间修改的操作很像区间查询，也是查找能够覆盖住的子区间，然后给它打上懒标记。</p>
+<p><strong>区间查询代码</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-type">int</span> now,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r,<span class="hljs-type">int</span> k)</span></span>&#123;<br>	<span class="hljs-keyword">if</span>(l&lt;=tr[now].l&amp;&amp;r&gt;=tr[now].r)&#123;<br>		<span class="hljs-comment">//如果查到子区间了</span><br>		tr[now].sum+=k*(tr[now].r-tr[now].l+<span class="hljs-number">1</span>);<span class="hljs-comment">//先修改这个区间</span><br>		tr[now].add+=k;<span class="hljs-comment">//然后给它打上懒标记</span><br>		<span class="hljs-comment">//注：这里一定要分清顺序，先修改，再标记！</span><br>	&#125;<br>	<span class="hljs-keyword">else</span>&#123;<br>		<span class="hljs-comment">//如果需要继续向下查询</span><br>		<span class="hljs-built_in">pushudown</span>(now);<span class="hljs-comment">//一定要先把懒标记向下传</span><br>		<span class="hljs-type">int</span> mid=(tr[now].l+tr[now].r)/<span class="hljs-number">2</span>;<br>		<span class="hljs-comment">//这里很像区间查询</span><br>		<span class="hljs-keyword">if</span>(l&lt;=mid) <span class="hljs-built_in">update</span>(now*<span class="hljs-number">2</span>,l,r,k);<br>		<span class="hljs-keyword">if</span>(r&gt;mid) <span class="hljs-built_in">update</span>(now*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>,l,r,k);	<br>		<span class="hljs-comment">//最后别忘了pushup一下</span><br>		<span class="hljs-built_in">pushup</span>(now);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="例题2：区间修改，区间查询">例题2：区间修改，区间查询</h3>
+<p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3372">洛谷P3372</a></p>
+<p>已知一个数列，你需要进行下面两种操作：</p>
+<ol>
+<li>将某区间每一个数加上<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>。</li>
+<li>求出某区间每一个数的和。</li>
+</ol>
+<p><strong>题目分析</strong></p>
+<p>应用到区间修改，需要注意的一点是，在区间查询时，也需要下传懒标记，这样才能查询到真实的值。</p>
+<p><strong>AC代码</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N=<span class="hljs-number">1e5</span>+<span class="hljs-number">10</span>;<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">node</span>&#123;<br>	<span class="hljs-type">int</span> sum;<br>	<span class="hljs-type">int</span> l,r;<br>	<span class="hljs-type">int</span> add;<span class="hljs-comment">//懒标记</span><br>&#125;tr[N*<span class="hljs-number">4</span>];<span class="hljs-comment">//线段树要开四倍空间哦</span><br><span class="hljs-type">int</span> a[N];<span class="hljs-comment">//原数列</span><br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">pushup</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span>&#123;<br>	tr[x].sum=tr[<span class="hljs-number">2</span>*x].sum+tr[<span class="hljs-number">2</span>*x+<span class="hljs-number">1</span>].sum;<span class="hljs-comment">//pushup操作</span><br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">pushudown</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span>&#123;<br>	<span class="hljs-keyword">if</span>(tr[x].add)&#123;<br>		<span class="hljs-comment">//如果这个节点上有懒标记</span><br>		tr[<span class="hljs-number">2</span>*x].add+=tr[x].add,tr[<span class="hljs-number">2</span>*x+<span class="hljs-number">1</span>].add+=tr[x].add;<br>		<span class="hljs-comment">//把这个节点的懒标记给他的两个子节点</span><br>		tr[<span class="hljs-number">2</span>*x].sum+=tr[x].add*(tr[<span class="hljs-number">2</span>*x].r-tr[<span class="hljs-number">2</span>*x].l+<span class="hljs-number">1</span>);<br>		tr[<span class="hljs-number">2</span>*x+<span class="hljs-number">1</span>].sum+=tr[x].add*(tr[<span class="hljs-number">2</span>*x+<span class="hljs-number">1</span>].r-tr[<span class="hljs-number">2</span>*x+<span class="hljs-number">1</span>].l+<span class="hljs-number">1</span>);<br>		<span class="hljs-comment">//分别给它的两个子节点修改</span><br>		tr[x].add=<span class="hljs-number">0</span>;<br>		<span class="hljs-comment">//别忘了清空这个节点的懒标记</span><br>	&#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">build</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)</span></span>&#123;<br>	<span class="hljs-comment">//建树操作</span><br>	tr[x].l=l,tr[x].r=r,tr[x].add=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">if</span>(l==r)&#123;<br>		tr[x].sum=a[l];<br>		<span class="hljs-keyword">return</span>;<br>	&#125;<br>	<span class="hljs-type">int</span> mid=(l+r)/<span class="hljs-number">2</span>;<br>	<span class="hljs-built_in">build</span>(<span class="hljs-number">2</span>*x,l,mid),<span class="hljs-built_in">build</span>(<span class="hljs-number">2</span>*x+<span class="hljs-number">1</span>,mid+<span class="hljs-number">1</span>,r);<br>	<span class="hljs-built_in">pushup</span>(x);<br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">query</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)</span></span>&#123;<br>	<span class="hljs-keyword">if</span>(l&lt;=tr[x].l&amp;&amp;r&gt;=tr[x].r) <span class="hljs-keyword">return</span> tr[x].sum;<br>	<span class="hljs-built_in">pushudown</span>(x);<span class="hljs-comment">//注意，区间查询时也要下懒传标记</span><br>	<span class="hljs-type">int</span> mid=(tr[x].l+tr[x].r)/<span class="hljs-number">2</span>,sum=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">if</span>(l&lt;=mid) sum+=<span class="hljs-built_in">query</span>(x*<span class="hljs-number">2</span>,l,r);<br>	<span class="hljs-keyword">if</span>(r&gt;mid) sum+=<span class="hljs-built_in">query</span>(x*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>,l,r);<br>	<span class="hljs-keyword">return</span> sum;	<br>&#125;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-type">int</span> now,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r,<span class="hljs-type">int</span> k)</span></span>&#123;<br>	<span class="hljs-keyword">if</span>(l&lt;=tr[now].l&amp;&amp;r&gt;=tr[now].r)&#123;<br>		<span class="hljs-comment">//如果查到子区间了</span><br>		tr[now].sum+=k*(tr[now].r-tr[now].l+<span class="hljs-number">1</span>);<span class="hljs-comment">//先修改这个区间</span><br>		tr[now].add+=k;<span class="hljs-comment">//然后给它打上懒标记</span><br>		<span class="hljs-comment">//注：这里一定要分清顺序，先修改，再标记！</span><br>	&#125;<br>	<span class="hljs-keyword">else</span>&#123;<br>		<span class="hljs-comment">//如果需要继续向下查询</span><br>		<span class="hljs-built_in">pushudown</span>(now);<span class="hljs-comment">//先把懒标记向下传</span><br>		<span class="hljs-type">int</span> mid=(tr[now].l+tr[now].r)/<span class="hljs-number">2</span>;<br>		<span class="hljs-comment">//这里很像区间查询</span><br>		<span class="hljs-keyword">if</span>(l&lt;=mid) <span class="hljs-built_in">update</span>(now*<span class="hljs-number">2</span>,l,r,k);<br>		<span class="hljs-keyword">if</span>(r&gt;mid) <span class="hljs-built_in">update</span>(now*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>,l,r,k);<br>		<span class="hljs-built_in">pushup</span>(now);<span class="hljs-comment">//最后别忘了pushup一下</span><br>	&#125;<br>&#125;<br><span class="hljs-type">int</span> n,q;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>	cin&gt;&gt;n&gt;&gt;q;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++) cin&gt;&gt;a[i];<br>	<span class="hljs-built_in">build</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,n);<br>	<span class="hljs-keyword">while</span>(q--)&#123;<br>		<span class="hljs-type">int</span> l,r,k,c;<br>		cin&gt;&gt;c&gt;&gt;l&gt;&gt;r;<br>		<span class="hljs-keyword">if</span>(c==<span class="hljs-number">1</span>)&#123;<br>			cin&gt;&gt;k;<br>			<span class="hljs-built_in">update</span>(<span class="hljs-number">1</span>,l,r,k);<br>		&#125;<br>		<span class="hljs-keyword">else</span> cout&lt;&lt;<span class="hljs-built_in">query</span>(<span class="hljs-number">1</span>,l,r)&lt;&lt;endl;<br>	&#125;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">//别忘了开long long哦</span><br></code></pre></td></tr></table></figure>
+<h3 id="例题3：较复杂的区间操作">例题3：较复杂的区间操作</h3>
+<p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3373">洛谷P3373</a></p>
+<p>已知一个数列，你需要进行下面三种操作：</p>
+<ol>
+<li>
+<p>将某区间每一个数乘上<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>。</p>
+</li>
+<li>
+<p>将某区间每一个数加上<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>。</p>
+</li>
+<li>
+<p>求出某区间每一个数的和。</p>
+</li>
+</ol>
+<p><strong>题目分析</strong></p>
+<p>有些题要维护多个区间操作，这在<code>pushdown</code>操作上就比较麻烦，比如这道题，要求维护区间加法和区间乘法，所以我们得维护两个懒标记。</p>
+<p>那么我们该怎样安排懒标记的<code>pushdown</code>顺序呢？</p>
+<p>我们考虑先乘后加的维护顺序，假设两个懒标记分别是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>u</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">mul</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span></span></span></span>和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>d</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">add</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">a</span><span class="mord mathnormal">dd</span></span></span></span>，那么这个数值就应该是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>u</mi><mi>l</mi><mo>×</mo><mi>s</mi><mi>u</mi><mi>m</mi><mo>+</mo><mi>a</mi><mi>d</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">mul \times sum+add</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">u</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">a</span><span class="mord mathnormal">dd</span></span></span></span>。</p>
+<p>此时如果加上一个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>d</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">add</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">a</span><span class="mord mathnormal">dd</span></span></span></span>，就会变成 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>u</mi><mi>l</mi><mo>×</mo><mi>s</mi><mi>u</mi><mi>m</mi><mo>+</mo><mi>a</mi><mi>d</mi><mi>d</mi><mo>+</mo><mi>a</mi><mi>d</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">mul \times sum+add+add</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">u</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">a</span><span class="mord mathnormal">dd</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">a</span><span class="mord mathnormal">dd</span></span></span></span></p>
+<p>如果乘上一个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>u</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">mul</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span></span></span></span>那就是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>u</mi><mi>l</mi><mo>×</mo><mi>s</mi><mi>u</mi><mi>m</mi><mo>×</mo><mi>m</mi><mi>u</mi><mi>l</mi><mo>+</mo><mi>a</mi><mi>d</mi><mi>d</mi><mo>×</mo><mi>m</mi><mi>u</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">mul \times sum \times mul+add \times mul</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">u</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">a</span><span class="mord mathnormal">dd</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span></span></span></span></p>
+<p>这种方式便于计算，如果使用先加后乘的方式，就会比较麻烦甚至会出错。</p>
+<p><strong>AC代码</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N=<span class="hljs-number">1e5</span>+<span class="hljs-number">10</span>;<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">node</span>&#123;<br>	<span class="hljs-type">int</span> l,r;<br>	<span class="hljs-type">int</span> sum,add,mul;<br>&#125;tr[N*<span class="hljs-number">4</span>];<span class="hljs-comment">//线段树开四倍空间</span><br><span class="hljs-type">int</span> a[N];<br><span class="hljs-type">int</span> n,p,m;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">pushup</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span>&#123;<br>	tr[x].sum=(tr[<span class="hljs-number">2</span>*x].sum+tr[<span class="hljs-number">2</span>*x+<span class="hljs-number">1</span>].sum)%p;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">eval</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> add,<span class="hljs-type">int</span> mul)</span></span>&#123;<br>	<span class="hljs-comment">//我们把计算懒标记单独放在这个函数里，否则好多东西挤一块很难看</span><br>	tr[x].sum=(tr[x].sum*mul+add*(tr[x].r-tr[x].l+<span class="hljs-number">1</span>))%p;<br>	tr[x].mul=(mul*tr[x].mul)%p; 	<span class="hljs-comment">//先计算乘法懒标记</span><br>	tr[x].add=(tr[x].add*mul+add)%p;<span class="hljs-comment">//再算加法懒标记</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">pushdown</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span>&#123;<br>	<span class="hljs-comment">//依次计算两个子节点的值和懒标记</span><br>	<span class="hljs-built_in">eval</span>(x*<span class="hljs-number">2</span>,tr[x].add,tr[x].mul);<br>	<span class="hljs-built_in">eval</span>(x*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>,tr[x].add,tr[x].mul);<br>	tr[x].add=<span class="hljs-number">0</span>,tr[x].mul=<span class="hljs-number">1</span>;<br>	<span class="hljs-comment">//清空懒标记，注意：乘法懒标记要初始化成1</span><br>&#125;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">build</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)</span></span>&#123;<br>	tr[x].l=l,tr[x].r=r;<br>	tr[x].add=<span class="hljs-number">0</span>,tr[x].mul=<span class="hljs-number">1</span>;<span class="hljs-comment">//乘法懒标记要初始化成1</span><br>	<span class="hljs-keyword">if</span>(l==r)&#123;<br>		tr[x].sum=a[l];<br>		<span class="hljs-keyword">return</span>;<br>	&#125;<br>	<span class="hljs-type">int</span> mid=(l+r)/<span class="hljs-number">2</span>;<br>	<span class="hljs-built_in">build</span>(x*<span class="hljs-number">2</span>,l,mid),<span class="hljs-built_in">build</span>(x*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>,mid+<span class="hljs-number">1</span>,r);<span class="hljs-comment">//递归建树</span><br>	<span class="hljs-built_in">pushup</span>(x);<br>&#125;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">change</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r,<span class="hljs-type">int</span> add,<span class="hljs-type">int</span> mul)</span></span>&#123;<br>	<span class="hljs-keyword">if</span>(l&lt;=tr[x].l&amp;&amp;r&gt;=tr[x].r) <span class="hljs-built_in">eval</span>(x,add,mul);<span class="hljs-comment">//计算</span><br>	<span class="hljs-keyword">else</span>&#123;<br>		<span class="hljs-built_in">pushdown</span>(x);<br>		<span class="hljs-type">int</span> mid=(tr[x].l+tr[x].r)/<span class="hljs-number">2</span>;<br>		<span class="hljs-keyword">if</span>(l&lt;=mid) <span class="hljs-built_in">change</span>(x*<span class="hljs-number">2</span>,l,r,add,mul);<br>		<span class="hljs-keyword">if</span>(r&gt;mid) <span class="hljs-built_in">change</span>(x*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>,l,r,add,mul);<br>		<span class="hljs-built_in">pushup</span>(x);<br>	&#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">query</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)</span></span>&#123;<br>	<span class="hljs-keyword">if</span>(l&lt;=tr[x].l&amp;&amp;r&gt;=tr[x].r) <span class="hljs-keyword">return</span> tr[x].sum;<br>	<span class="hljs-type">int</span> sum=<span class="hljs-number">0</span>;<br>	<span class="hljs-built_in">pushdown</span>(x); <span class="hljs-comment">//区间查询时也要pushdown  </span><br>	<span class="hljs-type">int</span> mid=(tr[x].l+tr[x].r)/<span class="hljs-number">2</span>;<br>	<span class="hljs-keyword">if</span>(l&lt;=mid) sum+=<span class="hljs-built_in">query</span>(x*<span class="hljs-number">2</span>,l,r)%p;<br>	<span class="hljs-keyword">if</span>(r&gt;mid) sum+=<span class="hljs-built_in">query</span>(x*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>,l,r)%p;<br>	<span class="hljs-keyword">return</span> sum;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>	<span class="hljs-type">int</span> t,g,c,ch;<br>	cin&gt;&gt;n&gt;&gt;m&gt;&gt;p;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++) cin&gt;&gt;a[i];<br>	<span class="hljs-built_in">build</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,n);<br>	<span class="hljs-keyword">while</span>(m--)&#123;<br>		cin&gt;&gt;ch&gt;&gt;t&gt;&gt;g;<br>		<span class="hljs-keyword">if</span>(ch==<span class="hljs-number">1</span>)&#123;<br>			cin&gt;&gt;c;<br>			<span class="hljs-built_in">change</span>(<span class="hljs-number">1</span>,t,g,<span class="hljs-number">0</span>,c);          <br>		&#125;<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch==<span class="hljs-number">2</span>)&#123;<br>			cin&gt;&gt;c;<br>			<span class="hljs-built_in">change</span>(<span class="hljs-number">1</span>,t,g,c,<span class="hljs-number">1</span>);          <br>		&#125;<br>		<span class="hljs-keyword">else</span> cout&lt;&lt;<span class="hljs-built_in">query</span>(<span class="hljs-number">1</span>,t,g)%p&lt;&lt;endl;<br>	&#125;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">//记得开longlong</span><br></code></pre></td></tr></table></figure>
+<h3 id="标记永久化">标记永久化</h3>
+<p>其实，维护区间修改的方式有两种，一种是懒标记和标记下传，另一种叫做”标记永久化“。</p>
+<p>标记永久化，就是不下传标记，在每次查询时把经过的标记累加起来，查询时加起来。</p>
+<p><img src="https://cdn.luogu.com.cn/upload/image_hosting/04xkea0k.png" srcset="/img/loading.gif" lazyload alt="标记永久化"><br>
+如图，打上标记的节点用绿色表示，查询路线（橙色）经过的就累加。</p>
+<p><strong>标记永久化代码</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">const</span> <span class="hljs-type">int</span> N=<span class="hljs-number">1e4</span>+<span class="hljs-number">10</span>;<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">node</span>&#123;<br>	<span class="hljs-type">int</span> sum,add;<br>	<span class="hljs-type">int</span> l,r;<br>&#125;tr[N*<span class="hljs-number">4</span>];<br><span class="hljs-type">int</span> a[N];<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">build</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)</span></span>&#123;<br>	tr[x].l=l,tr[x].r=r;<br>	<span class="hljs-keyword">if</span>(l==r)&#123;<br>		tr[x].sum=a[l],tr[x].add=<span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">return</span>;<br>	&#125;<br>	<span class="hljs-type">int</span> mid=(l+r)/<span class="hljs-number">2</span>;<br>	<span class="hljs-built_in">build</span>(x*<span class="hljs-number">2</span>,l,mid),<span class="hljs-built_in">build</span>(x*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>,mid+<span class="hljs-number">1</span>,r);<br>	tr[x].sum=tr[x*<span class="hljs-number">2</span>].sum+tr[x*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>].sum;<span class="hljs-comment">//标记永久化中只有建树时需要用到pushup操作</span><br>&#125;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r,<span class="hljs-type">int</span> k)</span></span>&#123;<br>	tr[x].sum+=(<span class="hljs-built_in">min</span>(tr[x].r,r)-<span class="hljs-built_in">max</span>(tr[x].l,l)+<span class="hljs-number">1</span>)*k;<span class="hljs-comment">//要取一个交集来加</span><br>	<span class="hljs-keyword">if</span>(tr[x].l&gt;=l&amp;&amp;tr[x].r&lt;=r)&#123;<br>		tr[x].add+=k;<span class="hljs-comment">//给节点打上标记后不用下传。</span><br>		<span class="hljs-keyword">return</span>;<br>	&#125;<br>	<span class="hljs-type">int</span> mid=(tr[x].l+tr[x].r)/<span class="hljs-number">2</span>;<br>	<span class="hljs-keyword">if</span>(l&lt;=mid) <span class="hljs-built_in">update</span>(x*<span class="hljs-number">2</span>,l,r,k);<br>	<span class="hljs-keyword">if</span>(r&gt;mid) <span class="hljs-built_in">update</span>(x*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>,l,r,k);<br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">query</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r,<span class="hljs-type">int</span> add)</span></span>&#123;<br>	<span class="hljs-keyword">if</span>(tr[x].l&gt;=l&amp;&amp;tr[x].r&lt;=r)&#123;<br>		<span class="hljs-type">int</span> s=(tr[x].r-tr[x].l+<span class="hljs-number">1</span>)*add;<span class="hljs-comment">//查询到节点后给这个区间乘上add</span><br>		<span class="hljs-keyword">return</span> tr[x].sum+s;<br>	&#125;<br>	add+=tr[x].add;<span class="hljs-comment">//add代表查询经过的懒标记之和	</span><br>	<span class="hljs-type">int</span> mid=(tr[x].l+tr[x].r)/<span class="hljs-number">2</span>,sum=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">if</span>(l&lt;=mid) sum+=<span class="hljs-built_in">query</span>(x*<span class="hljs-number">2</span>,l,r,add);<br>	<span class="hljs-keyword">if</span>(r&gt;mid) sum+=<span class="hljs-built_in">query</span>(x*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>,l,r,add);<br>	<span class="hljs-keyword">return</span> sum;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>标记永久化应用很多，比如可持久化线段树中的区间修改，树套树中第二维的修改。</p>
+<h3 id="习题-2">习题</h3>
+<p>这里给出一些习题，按照难度排序。</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2023"> AHOI2009 维护序列</a><br>
+与例题3差不多</li>
+<li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1253">洛谷P1253 扶苏的问题</a><br>
+稍微复杂的懒标记维护</li>
+<li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P5142">洛谷P5142 区间方差</a><br>
+需要一定的数学推导能力</li>
+<li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4145">P4145 花神游历各国</a><br>
+想一想如何优化？</li>
+<li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1471">P1471 方差</a><br>
+3题的加强版，较难</li>
+<li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P6327">P6327 区间加区间sin和</a><br>
+需要一些高中的数学知识</li>
+</ol>
+<h1>后记</h1>
+<p>后面本来是有内容的，为了方便阅读，我把后面的内容单独拿出来组了三篇博客。</p>
+<p>如果你想继续学习线段树有关内容，可以看</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" class="print-no-link">#算法笔记</a>
+      
+        <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/" class="print-no-link">#线段树</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【算法笔记】线段树基础</div>
+      <div>http://luhaoren.xyz/2023/08/12/【算法笔记】线段树基础/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>luhaoren</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年8月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/08/12/%E3%80%90%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0%E3%80%91%E6%9D%83%E5%80%BC%E7%BA%BF%E6%AE%B5%E6%A0%91/" title="【算法笔记】权值线段树">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【算法笔记】权值线段树</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/08/09/%E3%80%90%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0%E3%80%91%E8%8E%AB%E9%98%9F%E7%AE%97%E6%B3%95%E5%85%A5%E9%97%A8/" title="【算法笔记】莫队算法入门">
+                        <span class="hidden-mobile">【算法笔记】莫队算法入门</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <br> <a href="https://icp.gov.moe/?keyword=20230354" target="_blank">萌ICP备20230354号</a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
